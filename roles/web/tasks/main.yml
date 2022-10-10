@@ -1,0 +1,5 @@
+# Role for webserver
+- include_tasks: ondrej.yml
+- include_tasks: php.yml
+- include_tasks: composer.yml
+- include_tasks: nginx.yml

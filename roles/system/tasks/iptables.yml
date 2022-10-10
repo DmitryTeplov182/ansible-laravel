@@ -1,0 +1,11 @@
+# Open ports 22,80,443 (tcp)
+
+- name: Open ports 22,80,443 in iptables (tcp)
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_ports:
+      - "80"
+      - "443"
+      - "22"
+    jump: ACCEPT

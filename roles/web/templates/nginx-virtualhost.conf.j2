@@ -1,0 +1,23 @@
+server {
+    listen       80;
+    server_name  {{ serverName }} ;
+
+    root   /var/www/{{ serverName }}/public;
+    index index.php;
+
+    access_log  /var/log/nginx/{{ serverName }}-access.log;
+    error_log  /var/log/nginx/{{ serverName }}-error.log error;
+
+    if ($host != {{ serverName }} ) {
+        return 404;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/php{{ phpVersion }}-fpm.sock;
+        }
+}

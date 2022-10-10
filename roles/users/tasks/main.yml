@@ -1,0 +1,20 @@
+# Add ubuntu user
+
+- name: Create 'ubuntu' user
+  user:
+   name: ubuntu
+   shell: /bin/bash
+
+- name: Enable passwordless sudo with ALL commands for ubuntu
+  community.general.sudoers:
+   name: ubuntu-all
+   state: present
+   user: ubuntu
+   commands: ALL
+   nopassword: yes
+
+- name: Add key to ubuntu user
+  authorized_key:
+    user: ubuntu
+    state: present
+    key: "{{ ubuntuUserPublicKey }}"

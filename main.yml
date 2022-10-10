@@ -1,0 +1,12 @@
+# Base ansible playbook to run
+- hosts: all
+  become: true
+  become_user: root
+  gather_facts: true
+  name: Run all roles
+  roles:
+    - system
+    - users
+    - web
+    - mysql
+    - app

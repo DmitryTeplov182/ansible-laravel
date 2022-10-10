@@ -1,0 +1,37 @@
+# Installing MySQL
+- name: Install MySQL
+  apt: name=mysql-server state=present
+
+- name: Make sure MySQL is running and started on boot
+  service: name=mysql state=started enabled=yes
+
+# python3-pymysql in needed for configure MySQL in ansible
+- name: Install python3-pymysql
+  apt: name=python3-pymysql state=present
+
+- name: Copy .my.cnf file with root password credentials
+  template: src=my-credentials.cnf.j2 dest=/root/.my.cnf owner=root mode=0600
+
+# Used login_unix_socket here. Doesnt work without it
+- name: Update mysql root password for all root accounts
+  community.mysql.mysql_user:
+   check_implicit_admin: yes
+   name: root
+   host: localhost
+   password: "{{ mySQLRootPassword }}"
+   login_unix_socket: /run/mysqld/mysqld.sock
+
+- name: Create MySQL database
+  mysql_db: name={{ mySQLDatabase }} state=present
+
+- name: Create application database user
+  community.mysql.mysql_user: name={{ mySQLUser }} host=localhost password={{ mySQLUsersPassword }} priv={{ mySQLDatabase }}.*:ALL
+
+- name: Delete anonymous MySQL server user for {{ ansible_hostname }}
+  action: mysql_user user="" host="{{ ansible_hostname }}" state="absent"
+
+- name: Delete anonymous MySQL server user for localhost
+  action: mysql_user user="" state="absent"
+
+- name: Remove the MySQL test database
+  action: mysql_db db=test state=absent

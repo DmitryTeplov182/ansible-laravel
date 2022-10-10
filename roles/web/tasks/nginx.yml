@@ -1,0 +1,42 @@
+# Nginx confinguration
+
+- name: Make sure apache related packages are removed
+  apt: name="{{ packages }}" state=absent purge=yes
+  vars:
+      packages:
+      - apache2
+      - apache2-utils
+
+- name: Install nginx
+  apt: name=nginx state=present
+- name: Make sure nginx user exists
+
+  user:
+    name: nginx
+    comment: nginx user
+    createhome: false
+    generate_ssh_key: false
+    shell: /bin/false
+    system: yes
+
+- name: Configure nginx site
+  template: src=nginx-virtualhost.conf.j2 dest=/etc/nginx/sites-available/{{ serverName }}.conf
+
+- name: Enable nginx site
+  file:
+    src: /etc/nginx/sites-available/{{ serverName }}.conf
+    dest: /etc/nginx/sites-enabled/{{ serverName }}.conf
+    state: link
+
+- name: Disable default nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - Restart nginx
+
+- name: Make sure nginx is restarted and is started on boot
+  service: name=nginx state=restarted enabled=yes
+
+- name: Create site directory
+  file: path=/var/www/{{ serverName }} state=directory owner=www-data group=www-data mode=0775

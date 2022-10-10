@@ -1,0 +1,11 @@
+# Base system initialization
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+#No requirements for git version so use lastest
+- name: Install git
+  apt: name=git state=present
+
+#include iptables task
+- include_tasks: iptables.yml
