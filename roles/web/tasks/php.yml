@@ -1,7 +1,7 @@
 # Installing php
 
 - name: Install PHP and extensions
-  apt: name={{ item }} state=present update_cache=yes
+  ansible.builtin.apt: name={{ item }} state=present update_cache=yes
   with_items:
     - php{{ phpVersion }}
     - php{{ phpVersion }}-zip
@@ -11,7 +11,7 @@
     - php{{ phpVersion }}-curl
 
 - name: Install php-fpm
-  apt: name=php{{ phpVersion }}-fpm state=present
+  ansible.builtin.apt: name=php{{ phpVersion }}-fpm state=present
 
 - name: Make sure php-fpm is running
-  service: name=php{{ phpVersion }}-fpm state=started enabled=yes
+  ansible.builtin.service: name=php{{ phpVersion }}-fpm state=started enabled=yes

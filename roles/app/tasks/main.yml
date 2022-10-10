@@ -1,25 +1,26 @@
-# Install lavarel from git
-- name: Clone lavarel repo
+# Install laravel from git
+- name: Clone laravel repo
   become: true
   become_user: www-data
-  git:
+  ansible.builtin.git:
     repo: https://github.com/laravel/laravel.git
     dest: /var/www/{{ serverName }}
-    force: yes
+    force: false
+    version: "{{ laravelVersion }}"
 
 - name: Set permissions for Laravel storage folder
-  file:
-   path: /var/www/{{ serverName }}/storage
-   state: directory
-   recurse: yes
-   mode: '0755'
+  ansible.builtin.file:
+    path: /var/www/{{ serverName }}/storage
+    state: directory
+    recurse: true
+    mode: '0755'
 
 - name: Install laravel dependencies
   become: true
   become_user: www-data
   community.general.composer:
-   command: update
-   working_dir: /var/www/{{ serverName }}
+    command: update
+    working_dir: /var/www/{{ serverName }}
 
 # - name: copy env file
 #   copy:
@@ -32,12 +33,12 @@
 
 # No idempotency must fix it
 - name: Create .env file
-  template:
-   src: env.j2
-   dest: /var/www/{{ serverName }}/.env
-   owner: www-data
-   group: www-data
-   mode: '0644'
+  ansible.builtin.template:
+    src: env.j2
+    dest: /var/www/{{ serverName }}/.env
+    owner: www-data
+    group: www-data
+    mode: '0644'
 
 # - name: setup laravel
 #   shell: |

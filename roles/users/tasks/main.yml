@@ -1,7 +1,7 @@
 # Add ubuntu user
 
 - name: Create 'ubuntu' user
-  user:
+  ansible.builtin.user:
    name: ubuntu
    shell: /bin/bash
 
@@ -11,10 +11,10 @@
    state: present
    user: ubuntu
    commands: ALL
-   nopassword: yes
+   nopassword: true
 
 - name: Add key to ubuntu user
   authorized_key:
-    user: ubuntu
-    state: present
-    key: "{{ ubuntuUserPublicKey }}"
+   user: ubuntu
+   state: present
+   key: "{{ ubuntuUserPublicKey }}"

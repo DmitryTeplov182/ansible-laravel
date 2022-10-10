@@ -1,5 +1,5 @@
 # Enable ondrejs repo for php
 - name: Enable ondrejs PHP repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: ppa:ondrej/php
     state: present

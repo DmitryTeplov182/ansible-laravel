@@ -1,5 +1,9 @@
 # Role for webserver
-- include_tasks: ondrej.yml
-- include_tasks: php.yml
-- include_tasks: composer.yml
-- include_tasks: nginx.yml
+- name: Include ppa
+  ansible.builtin.include_tasks: ondrej.yml
+- name: Include php install
+  ansible.builtin.include_tasks: php.yml
+- name: Include composer install
+  ansible.builtin.include_tasks: composer.yml
+- name: Include nginx install
+  ansible.builtin.include_tasks: nginx.yml

@@ -1,11 +1,12 @@
 # Base system initialization
 
 - name: Update apt cache
-  apt: update_cache=yes
+  ansible.builtin.apt: update_cache=yes
 
-#No requirements for git version so use lastest
+# No requirements for git version so use lastest
 - name: Install git
-  apt: name=git state=present
+  ansible.builtin.apt: name=git state=present
 
-#include iptables task
-- include_tasks: iptables.yml
+# Include iptables task
+- name: Include iptables task
+  ansible.builtin.include_tasks: iptables.yml
