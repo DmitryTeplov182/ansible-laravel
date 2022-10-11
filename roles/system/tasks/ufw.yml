@@ -1,0 +1,29 @@
+# Task for firewall
+- name: Make sure ufw is installed
+  ansible.builtin.apt: name=ufw state=present
+
+- name: Make sure ufw is started and enabled
+  ansible.builtin.service: name=ufw state=started enabled=yes
+
+- name: Allow 80 tcp port
+  community.general.ufw:
+    rule: allow
+    port: 80
+    proto: tcp
+
+- name: Allow 443 tcp port
+  community.general.ufw:
+    rule: allow
+    port: 443
+    proto: tcp
+
+- name: Allow 22 tcp port
+  community.general.ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Deny all tcp port last rule
+  community.general.ufw:
+    rule: deny
+    state: enabled

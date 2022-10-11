@@ -7,6 +7,6 @@
 - name: Install git
   ansible.builtin.apt: name=git state=present
 
-# Include iptables task
-- name: Include iptables task
-  ansible.builtin.include_tasks: iptables.yml
+# Include ufw task
+- name: Include ufw task
+  ansible.builtin.include_tasks: ufw.yml

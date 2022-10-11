@@ -1,0 +1,8 @@
+ubuntuUserPublicKey: ssh-rsa ...
+serverName: example.com
+phpVersion: 8.0 # Look at https://deb.sury.org/ to find needed version
+laravelVersion: v9.3.8 # Look at https://github.com/laravel/laravel to find needed tag
+mySQLRootPassword: somesecret
+mySQLDatabase: testjob
+mySQLUser: testjob
+mySQLUsersPassword: testjobpwd
